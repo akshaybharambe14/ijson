@@ -7,25 +7,6 @@ import (
 	"github.com/akshaybharambe14/ijson/testdata"
 )
 
-// func BenchmarkGet(b *testing.B) {
-// 	for i := 0; i < b.N; i++ {
-// 		_, _ = Get(data, "#0", "friends" /* , "#.name" */)
-// 	}
-// }
-
-// func BenchmarkGetNew(b *testing.B) {
-// 	r := New(data)
-// 	for i := 0; i < b.N; i++ {
-// 		_ = r.Get("#0", "friends" /* , "#.name" */).Value()
-// 	}
-// }
-
-// func BenchmarkGetNew(b *testing.B) {
-// 	for i := 0; i < b.N; i++ {
-// 		GetNew(data, "#0", "friends", "#.name")
-// 	}
-// }
-
 func TestGet(t *testing.T) {
 	type args struct {
 		data interface{}

@@ -11,8 +11,8 @@ package ijson
 // Explanation -
 //
 //  "#0" - access the 0th element in the array
-//  "friends" - access the friends ley from object
-//  "#~name" - return all objects having "name" field as an array
+//  "friends" - access the friends key from object
+//  "#~name" - return an array of all the objects having "name" field.
 //  "#" - return the length of the result array
 //
 func Get(data interface{}, path ...string) (interface{}, error) {
@@ -71,7 +71,7 @@ func GetObject(data interface{}, field string) (interface{}, error) {
 
 // GetArrayIndex returns the data present at provided index.
 //
-// It expects the input data to be an array of objects.
+// It expects the input data to be an array.
 //
 // An error will be returned if the input is not a valid `[]interface{}` OR index is out of range.
 func GetArrayIndex(data interface{}, idx int) (interface{}, error) {
@@ -120,7 +120,7 @@ func GetArrayField(data interface{}, field string) ([]interface{}, error) {
 	return result[:k], nil
 }
 
-// GetArrayLen returns length.
+// GetArrayLen returns length of the array.
 //
 // It expects the input data to be an array OR nil. Length will be zero if data is nil.
 //
