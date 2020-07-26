@@ -125,7 +125,7 @@ func index(p string, t Path) (int, error) {
 	// we have already resolved the path type and it is valid.
 	var i string
 	switch t {
-	case PGet_ArrIdx, PSet_ArrIdx:
+	case PGet_ArrIdx, PSet_ArrIdx, PDel_ArrIdx:
 		i = p[1:]
 	case PDel_ArrIdxPO:
 		i = p[2:]
