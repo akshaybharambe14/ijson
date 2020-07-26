@@ -1,4 +1,4 @@
-package testdata
+package ijson
 
 var data = []interface{}{
 	map[string]interface{}{
@@ -44,18 +44,18 @@ var data = []interface{}{
 	},
 }
 
-func Get() interface{} {
+func Nested() interface{} {
 	return data
 }
 
-func GetObject() map[string]interface{} {
+func Object() map[string]interface{} {
 	return map[string]interface{}{
 		"id":   0,
 		"name": "Justine Bird",
 	}
 }
 
-func GetArray() []interface{} {
+func Array() []interface{} {
 	return []interface{}{
 		map[string]interface{}{
 			"id":   0,

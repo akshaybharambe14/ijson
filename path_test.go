@@ -41,6 +41,11 @@ func TestDetectPath(t *testing.T) {
 			want: P_Unknown,
 		},
 		{
+			name: "Get path for unknown action",
+			args: args{a: Act_Ukn, p: ""},
+			want: P_Unknown,
+		},
+		{
 			name: "Set object",
 			args: args{a: Act_Set, p: "name"},
 			want: PSet_Obj,

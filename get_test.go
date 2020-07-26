@@ -3,8 +3,6 @@ package ijson
 import (
 	"reflect"
 	"testing"
-
-	"github.com/akshaybharambe14/ijson/testdata"
 )
 
 func TestGet(t *testing.T) {
@@ -19,43 +17,43 @@ func TestGet(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:    "nil data and path",
+			name:    "nil/ nil",
 			args:    args{data: nil, path: nil},
 			want:    nil,
 			wantErr: false,
 		},
 		{
-			name:    "get data at 0th index",
-			args:    args{data: testdata.GetArray(), path: []string{"#0"}},
-			want:    testdata.GetArray()[0],
+			name:    "array/ valid index",
+			args:    args{data: Array(), path: []string{"#0"}},
+			want:    Array()[0],
 			wantErr: false,
 		},
 		{
-			name:    "get data for field",
-			args:    args{data: testdata.GetObject(), path: []string{"name"}},
-			want:    testdata.GetObject()["name"],
+			name:    "object/ valid field",
+			args:    args{data: Object(), path: []string{"name"}},
+			want:    Object()["name"],
 			wantErr: false,
 		},
 		{
-			name:    "get data from nested object",
-			args:    args{data: testdata.Get(), path: []string{"#0", "friends", "#~name", "#"}},
+			name:    "nested/ valid path",
+			args:    args{data: Nested(), path: []string{"#0", "friends", "#~name", "#"}},
 			want:    3,
 			wantErr: false,
 		},
 		{
-			name:    "get data with invalid path",
-			args:    args{data: testdata.Get(), path: []string{"", "", "#~name", "#"}},
+			name:    "nested/ invalid path",
+			args:    args{data: Nested(), path: []string{"", "", "#~name", "#"}},
 			want:    nil,
 			wantErr: true,
 		},
 		{
-			name:    "get data with invalid index",
-			args:    args{data: testdata.Get(), path: []string{"#a"}},
+			name:    "array/ invalid index",
+			args:    args{data: Array(), path: []string{"#a"}},
 			want:    nil,
 			wantErr: true,
 		},
 		{
-			name:    "get data with valid path for invalid data",
+			name:    "nil/ valid index",
 			args:    args{data: nil, path: []string{"#2"}},
 			want:    nil,
 			wantErr: true,
@@ -88,19 +86,19 @@ func TestGetObject(t *testing.T) {
 	}{
 		{
 			name:    "valid data with field",
-			args:    args{data: testdata.GetObject(), field: "name"},
-			want:    testdata.GetObject()["name"],
+			args:    args{data: Object(), field: "name"},
+			want:    Object()["name"],
 			wantErr: false,
 		},
 		{
 			name:    "valid data with invalid field",
-			args:    args{data: testdata.GetObject(), field: "qualification"},
+			args:    args{data: Object(), field: "qualification"},
 			want:    nil,
 			wantErr: true,
 		},
 		{
 			name:    "invalid data",
-			args:    args{data: testdata.GetArray(), field: "qualification"},
+			args:    args{data: Array(), field: "qualification"},
 			want:    nil,
 			wantErr: true,
 		},
@@ -132,19 +130,19 @@ func TestGetArrayIndex(t *testing.T) {
 	}{
 		{
 			name:    "valid array with valid index",
-			args:    args{data: testdata.GetArray(), idx: 0},
-			want:    testdata.GetArray()[0],
+			args:    args{data: Array(), idx: 0},
+			want:    Array()[0],
 			wantErr: false,
 		},
 		{
 			name:    "valid array with invalid index",
-			args:    args{data: testdata.GetArray(), idx: 10},
+			args:    args{data: Array(), idx: 10},
 			want:    nil,
 			wantErr: true,
 		},
 		{
 			name:    "invalid array",
-			args:    args{data: testdata.GetObject(), idx: 10},
+			args:    args{data: Object(), idx: 10},
 			want:    nil,
 			wantErr: true,
 		},
@@ -176,25 +174,25 @@ func TestGetArrayField(t *testing.T) {
 	}{
 		{
 			name:    "valid array with valid filed",
-			args:    args{data: testdata.GetArray(), field: "id"},
+			args:    args{data: Array(), field: "id"},
 			want:    []interface{}{0, 0, 1},
 			wantErr: false,
 		},
 		{
 			name:    "valid array with mixed valid filed",
-			args:    args{data: append(testdata.GetArray(), nil), field: "id"},
+			args:    args{data: append(Array(), nil), field: "id"},
 			want:    []interface{}{0, 0, 1},
 			wantErr: false,
 		},
 		{
 			name:    "valid array with invalid filed",
-			args:    args{data: testdata.GetArray(), field: "tags" /* any random name */},
+			args:    args{data: Array(), field: "tags" /* any random name */},
 			want:    []interface{}{},
 			wantErr: false,
 		},
 		{
 			name:    "invalid array",
-			args:    args{data: testdata.GetObject(), field: "tags" /* any random name */},
+			args:    args{data: Object(), field: "tags" /* any random name */},
 			want:    nil,
 			wantErr: true,
 		},
@@ -225,7 +223,7 @@ func TestGetArrayLen(t *testing.T) {
 	}{
 		{
 			name:    "valid array",
-			args:    args{data: testdata.GetArray()},
+			args:    args{data: Array()},
 			want:    3,
 			wantErr: false,
 		},
@@ -237,7 +235,7 @@ func TestGetArrayLen(t *testing.T) {
 		},
 		{
 			name:    "invalid array",
-			args:    args{data: testdata.GetObject()},
+			args:    args{data: Object()},
 			want:    0,
 			wantErr: true,
 		},
