@@ -50,6 +50,10 @@ func Get(data interface{}, path ...string) (interface{}, error) {
 	return data, nil
 }
 
+func GetP(data interface{}, path string) (interface{}, error) {
+	return Get(data, split(path)...)
+}
+
 // GetObject returns the data against the provided field.
 //
 // It expects the input data to be an object with string key.

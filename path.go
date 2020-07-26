@@ -2,6 +2,7 @@ package ijson
 
 import (
 	"strconv"
+	"strings"
 )
 
 type (
@@ -139,4 +140,8 @@ func index(p string, t Path) (int, error) {
 func field(p string) string {
 	// we have already resolved the path type and it is valid.
 	return p[2:]
+}
+
+func split(p string) []string {
+	return strings.Split(p, ".")
 }

@@ -4,8 +4,16 @@ func Set(data, value interface{}, path ...string) (interface{}, error) {
 	return set(data, value, false, path...)
 }
 
+func SetP(data, value interface{}, path string) (interface{}, error) {
+	return setP(data, value, false, path)
+}
+
 func SetF(data, value interface{}, path ...string) (interface{}, error) {
 	return set(data, value, true, path...)
+}
+
+func SetFP(data, value interface{}, path string) (interface{}, error) {
+	return setP(data, value, true, path)
 }
 
 func set(data interface{}, value interface{}, force bool, path ...string) (interface{}, error) {
@@ -85,6 +93,10 @@ func set(data interface{}, value interface{}, force bool, path ...string) (inter
 	default:
 		return nil, errInvPth
 	}
+}
+
+func setP(data interface{}, value interface{}, force bool, path string) (interface{}, error) {
+	return set(data, value, force, split(path)...)
 }
 
 func extend(arr []interface{}, idx int) []interface{} {

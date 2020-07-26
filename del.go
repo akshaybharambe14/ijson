@@ -64,6 +64,10 @@ func Del(data interface{}, path ...string) (interface{}, error) {
 	}
 }
 
+func DelP(data interface{}, path string) (interface{}, error) {
+	return Del(data, split(path)...)
+}
+
 func DeleteAtArrayIndex(
 	arr []interface{},
 	idx int,

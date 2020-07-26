@@ -26,7 +26,15 @@ func (r Result) Error() error {
 	return r.err
 }
 
+func (r Result) GetP(path string) Result {
+	return r.get(split(path)...)
+}
+
 func (r Result) Get(path ...string) Result {
+	return r.get(path...)
+}
+
+func (r Result) get(path ...string) Result {
 	if r.Error() != nil {
 		return r
 	}
@@ -39,7 +47,15 @@ func (r Result) Get(path ...string) Result {
 	return Result{val: data}
 }
 
+func (r Result) SetP(value interface{}, path string) Result {
+	return r.set(value, split(path)...)
+}
+
 func (r Result) Set(value interface{}, path ...string) Result {
+	return r.set(value, path...)
+}
+
+func (r Result) set(value interface{}, path ...string) Result {
 	if r.Error() != nil {
 		return r
 	}
@@ -52,7 +68,14 @@ func (r Result) Set(value interface{}, path ...string) Result {
 	return Result{val: data}
 }
 
+func (r Result) DelP(path string) Result {
+	return r.del(split(path)...)
+}
+
 func (r Result) Del(path ...string) Result {
+	return r.del(path...)
+}
+func (r Result) del(path ...string) Result {
 	if r.Error() != nil {
 		return r
 	}
