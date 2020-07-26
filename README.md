@@ -8,12 +8,12 @@
         <img src="https://img.shields.io/badge/API-Reference-green" alt="GoDoc">
     </a>
     <br>
-    Query interface data and set or delete values easily
+    Query <b><i>I</i></b>nterface <b><i>JSON</i></b> and set or delete values easily
 </p
 
-IJSON is a small but effective utility for dealing with dynamic or unknown JSON structures in [Go](https://golang.org). It's a helpful wrapper for navigating hierarchies of `map[string]interface{}` OR `[]interface{}`. It is the best solution for one time data access and manipulation.
+**IJSON** is a small but effective utility to deal with **dynamic** or **unknown JSON structures** in [Go](https://golang.org). It's a helpful wrapper for navigating hierarchies of `map[string]interface{}` OR `[]interface{}`. It is the best solution for one time data access and manipulation.
 
-Other libraries parse the whole json structure in the required format, not suitable if you have `interface{}` as input and want the output in same format.
+Other libraries parse the whole json structure in their own format and again to interface if required, not suitable if you have `interface{}` as input and want the output in same format.
 
 > **Note** - This is not a json parser. It just plays with raw interface data.
 
@@ -92,7 +92,7 @@ func main() {
 
 ### Path syntax
 
-ijson follows a specific path syntax to access the data. The implementation sticks to the analogy that, user knows the path. So if caller wants to access an index, the underlying data must be an array otherwise, an error will be returned.
+IJSON follows a specific path syntax to access the data. The implementation sticks to the analogy that, user knows the path. So if caller wants to access an index, the underlying data must be an array otherwise, an error will be returned.
 
 Use functions and methods suffixed by `P` to provide a `"."` separated path.
 
@@ -152,9 +152,9 @@ var data = []interface{}{
 
 #### Set
 
-Set overwrites the existing data. An error will be returned if the data does not matched the query. If the data is `nil`, it will create the structure.
+Set overwrites the existing data. An error will be returned if the data does not match the query. If the data is `nil`, it will create the structure.
 
-There is an alternative for datatype mismatch. Use `SetF` instead of `Set` function. It will replace the existing with provided.
+There is an alternative for datatype mismatch. Use `SetF` instead of `Set` function. It will **forcefully** replace the existing with provided.
 
 ##### Set in Array
 

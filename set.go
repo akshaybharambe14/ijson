@@ -1,17 +1,22 @@
 package ijson
 
+// Set sets the provide value to the path. It creates the structure if not present.
+// An error is returned if it fails to resolve the path OR encounters different type than expected by path.
 func Set(data, value interface{}, path ...string) (interface{}, error) {
 	return set(data, value, false, path...)
 }
 
+// SetP is same as Set(). It just takes `"."` separated path.
 func SetP(data, value interface{}, path string) (interface{}, error) {
 	return setP(data, value, false, path)
 }
 
+// SetF is same as Set(). It just forcefully replaces the structure if it is not same as expected by the path.
 func SetF(data, value interface{}, path ...string) (interface{}, error) {
 	return set(data, value, true, path...)
 }
 
+// SetFP is same as SetF(). It just takes `"."` separated path.
 func SetFP(data, value interface{}, path string) (interface{}, error) {
 	return setP(data, value, true, path)
 }

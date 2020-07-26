@@ -1,10 +1,8 @@
 package ijson
 
 // Get returns the result corresponding to provided path.
-//
 // If it fails to resolve the path, an error will be returned.
-//
-// Returns same data if path is not provided, with nil error.
+// Returns the same data if path is not provided, with nil error.
 //
 // Path syntax - Get(data, "#0", "friends", "#~name", "#")
 //
@@ -50,14 +48,17 @@ func Get(data interface{}, path ...string) (interface{}, error) {
 	return data, nil
 }
 
+// GetP is same as Get(). It just takes `"."` separated path.
+//
+// Path syntax - Get(data, "#0".friends".#~name".#")
+//
+// See Get() function for detailed explanation
 func GetP(data interface{}, path string) (interface{}, error) {
 	return Get(data, split(path)...)
 }
 
 // GetObject returns the data against the provided field.
-//
 // It expects the input data to be an object with string key.
-//
 // An error will be returned if the input is not a valid `map[string]interface{}` OR field does not exists.
 func GetObject(data interface{}, field string) (interface{}, error) {
 	object, exists := data.(map[string]interface{})
@@ -74,9 +75,7 @@ func GetObject(data interface{}, field string) (interface{}, error) {
 }
 
 // GetArrayIndex returns the data present at provided index.
-//
 // It expects the input data to be an array.
-//
 // An error will be returned if the input is not a valid `[]interface{}` OR index is out of range.
 func GetArrayIndex(data interface{}, idx int) (interface{}, error) {
 
@@ -93,11 +92,8 @@ func GetArrayIndex(data interface{}, idx int) (interface{}, error) {
 }
 
 // GetArrayField returns all the objects matching the provided field.
-//
 // It expects the input data to be an array of objects.
-//
 // If provided data is array of values, it will return an empty array.
-//
 // An error will be returned if the input is not a valid `[]interface{}`.
 func GetArrayField(data interface{}, field string) ([]interface{}, error) {
 	array, exists := data.([]interface{})
@@ -125,9 +121,7 @@ func GetArrayField(data interface{}, field string) ([]interface{}, error) {
 }
 
 // GetArrayLen returns length of the array.
-//
 // It expects the input data to be an array OR nil. Length will be zero if data is nil.
-//
 // An error will be returned if the input is not nil and not a valid `[]interface{}`.
 func GetArrayLen(data interface{}) (int, error) {
 	if data == nil {

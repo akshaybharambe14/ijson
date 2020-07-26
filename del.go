@@ -1,5 +1,7 @@
 package ijson
 
+// Del deletes element form the the data pointed by the path.
+// An error is returned if it fails to resolve the path.
 func Del(data interface{}, path ...string) (interface{}, error) {
 	if len(path) == 0 || data == nil {
 		return data, nil
@@ -64,10 +66,14 @@ func Del(data interface{}, path ...string) (interface{}, error) {
 	}
 }
 
+// DelP is same as Del() function. It just takes `"."` separated path.
 func DelP(data interface{}, path string) (interface{}, error) {
 	return Del(data, split(path)...)
 }
 
+// DeleteAtArrayIndex deletes the provides index from array.
+// Set po to true if you want to preserve the order while deleting the index.
+// An error is returned if the index is out of range.
 func DeleteAtArrayIndex(
 	arr []interface{},
 	idx int,
@@ -81,6 +87,7 @@ func DeleteAtArrayIndex(
 	return DeleteAtIndex(arr, idx)
 }
 
+// DeleteAtIndexPO deletes the provides index from array with preserving the order.
 func DeleteAtIndexPO(arr []interface{}, idx int) ([]interface{}, error) {
 	l := len(arr)
 
@@ -100,6 +107,7 @@ func DeleteAtIndexPO(arr []interface{}, idx int) ([]interface{}, error) {
 	return arr[:l-1], nil
 }
 
+// DeleteAtIndex deletes the provides index from array withput preserving the order.
 func DeleteAtIndex(arr []interface{}, idx int) ([]interface{}, error) {
 	l := len(arr)
 	if l == 0 {
