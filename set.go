@@ -10,7 +10,11 @@ func SetF(data, value interface{}, path ...string) (interface{}, error) {
 
 func set(data interface{}, value interface{}, force bool, path ...string) (interface{}, error) {
 	if len(path) == 0 {
-		return value, nil
+		if data == nil {
+			return value, nil
+		}
+
+		return data, nil
 	}
 
 	pathType := DetectSetPath(path[0])

@@ -147,6 +147,16 @@ func TestSet(t *testing.T) {
 			want:    nil,
 			wantErr: true,
 		},
+		{
+			name: "object/ nil path",
+			args: args{
+				data:  map[string]interface{}{"visits": []interface{}{}},
+				value: 1,
+				path:  nil,
+			},
+			want:    map[string]interface{}{"visits": []interface{}{}},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
