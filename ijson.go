@@ -1,6 +1,9 @@
 package ijson
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 type (
 	Result struct {
@@ -15,6 +18,19 @@ type (
 )
 
 func New(data interface{}) (r Result) { r.val = data; return }
+
+func Parse(data string) Result {
+
+	return ParseBytes([]byte(data))
+}
+
+func ParseBytes(data []byte) Result {
+	r := Result{}
+
+	r.err = json.Unmarshal(data, &r.val)
+
+	return r
+}
 
 func (r Result) Value() interface{} { return r.val }
 
