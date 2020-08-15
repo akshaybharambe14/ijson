@@ -4,12 +4,26 @@
         width="196" height="239" border="0" alt="IJSON"
     >
     <br>
-    <a href="https://pkg.go.dev/github.com/akshaybharambe14/ijson">
-        <img src="https://img.shields.io/badge/API-Reference-green" alt="GoDoc">
+    <a href="https://pkg.go.dev/badge/github.com/akshaybharambe14/ijson">
+        <img src="https://pkg.go.dev/badge/github.com/akshaybharambe14/ijson" alt="PkgGoDev">
+    </a>
+    <a href="https://github.com/akshaybharambe14/ijson/actions?query=workflow%3A%22Build+and+test%22">
+        <img src="https://github.com/akshaybharambe14/ijson/workflows/Build%20and%20test/badge.svg" alt="Build and Test Status">
+    </a>
+    <a href="https://goreportcard.com/report/github.com/akshaybharambe14/ijson">
+        <img src="https://goreportcard.com/badge/github.com/akshaybharambe14/ijson" alt="Go report">
     </a>
     <br>
     Query <b><i>I</i></b>nterface <b><i>JSON</i></b> and set or delete values easily
 </p
+
+<!--
+
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/akshaybharambe14/ijson)](https://pkg.go.dev/github.com/akshaybharambe14/ijson)
+[![Build and Test Status](https://github.com/akshaybharambe14/ijson/workflows/Build%20and%20test/badge.svg)](https://github.com/akshaybharambe14/ijson/actions?query=workflow%3A%22Build+and+test%22)
+[![PkgGoDev](https://goreportcard.com/badge/github.com/akshaybharambe14/ijson)](https://goreportcard.com/report/github.com/akshaybharambe14/ijson)
+
+-->
 
 **IJSON** is a small but effective utility to deal with **dynamic** or **unknown JSON structures** in [Go](https://golang.org). It's a helpful wrapper for navigating hierarchies of `map[string]interface{}` OR `[]interface{}`. It is the best solution for one time data access and manipulation.
 
@@ -51,28 +65,30 @@ import (
 	"github.com/akshaybharambe14/ijson"
 )
 
-var data = []interface{}{
-	map[string]interface{}{
-		"index": 0,
-		"friends": []interface{}{
-			map[string]interface{}{
-				"id":   0,
-				"name": "Justine Bird",
-			},
-			map[string]interface{}{
-				"id":   0,
-				"name": "Justine Bird",
-			},
-			map[string]interface{}{
-				"id":   1,
-				"name": "Marianne Rutledge",
-			},
+var dataBytes = []byte(`
+[
+	{
+	  "index": 0,
+	  "friends": [
+		{
+		  "id": 0,
+		  "name": "Justine Bird"
 		},
-	},
-}
+		{
+		  "id": 0,
+		  "name": "Justine Bird"
+		},
+		{
+		  "id": 1,
+		  "name": "Marianne Rutledge"
+		}
+	  ]
+	}
+]
+`)
 
 func main() {
-	r := ijson.New(data).
+	r := ijson.ParseByes(dataBytes).
 		GetP("#0.friends.#~name"). // list the friend names for 0th record -
 		// []interface {}{"Justine Bird", "Justine Bird", "Marianne Rutledge"}
 
@@ -96,59 +112,28 @@ IJSON follows a specific path syntax to access the data. The implementation stic
 
 Use functions and methods suffixed by `P` to provide a `"."` separated path.
 
-Consider following data as an example.
+#### Get
 
-```go
-var data = []interface{}{
-	map[string]interface{}{
-		"index": 0,
-		"friends": []interface{}{
-			map[string]interface{}{
-				"id":   0,
-				"name": "Justine Bird",
-			},
-			map[string]interface{}{
-				"id":   0,
-				"name": "Justine Bird",
-			},
-			map[string]interface{}{
-				"id":   1,
-				"name": "Marianne Rutledge",
-			},
-		},
-	},
+```json
+{
+	"index": 0,
+	"name": { "first": "Tom", "last": "Anderson" },
+	"friends": [
+		{ "id": 1, "name": "Justine Bird" },
+		{ "id": 2, "name": "Justine Rutledge" },
+		{ "id": 3, "name": "Marianne Rutledge" }
+	]
 }
 ```
 
-#### Get values
+Summary of get operations on above data.
 
-##### Get from Array
-
-1. Get data at `0th` index
-
-   ```go
-   ijson.Get(data, "#0")
-   ```
-
-2. Get all names from friends array
-
-   ```go
-   ijson.Get(data, "#0", "#~name")
-   ```
-
-3. Get length of an array
-
-   ```go
-   ijson.Get(data, "#")
-   ```
-
-##### Get from Object
-
-1. Access a key from object
-
-   ```go
-   ijson.Get(data, "#0", "index")
-   ```
+```text
+"name.last"    >> "Anderson"                          // GET "last" field from "name" object
+"friends.#"    >> 3                                   // GET length of "friends" array
+"friends.#~id" >> [ 1, 2, 3 ]                         // GET all values of "id" field from "friends" array
+"friends.#0"   >> { "id": 1, "name": "Justine Bird" } // GET "0th" element from "friends" array
+```
 
 #### Set
 
@@ -156,59 +141,33 @@ Set overwrites the existing data. An error will be returned if the data does not
 
 There is an alternative for datatype mismatch. Use `SetF` instead of `Set` function. It will **forcefully** replace the existing with provided.
 
-##### Set in Array
+Following path syntax sets "Anderson" as a value in empty structure.
 
-1. Set at `1st` index
-
-   ```go
-   ijson.Set(data, value, "#1")
-   ```
-
-2. Append data to the array
-
-   ```go
-   ijson.Set(data, value, "#")
-   ```
-
-##### Set in Object
-
-1. Set data against `name` key
-
-   ```go
-   ijson.Set(data, value, "name")
-   ```
+```text
+"name.last"    >> { "name": { "last": "Anderson" } }  // Create an object and SET value of "last" field in "name" object
+"#2"           >> ["", "", "Anderson"]                // Create an array and SET value at "2nd" index
+"friends.#"    >> { "friends": [ "Anderson" ] }       // Create an object and APPEND to "friends" array
+```
 
 #### Delete
 
-##### Delete from Array
+While deleting at an index, you have two options. By default, deletes does not preserve order. This helps to save unnecessary allocations as it just replaces the data at given index with last element. Refer following syntax for details.
 
-1. Delete at index `#2` **without preserving the order**
-   Returns an error if index is out of range.
+```json
+{
+	"index": 0,
+	"friends": ["Justine Bird", "Justine Rutledge", "Marianne Rutledge"]
+}
+```
 
-   ```go
-   ijson.Del(data, "#2")
-   ```
+Summary of delete operations on above data.
 
-2. Delete at index `#2` **with preserving the order**
-   Returns an error if index is out of range.
-
-   ```go
-   ijson.Del(data, "#~2")
-   ```
-
-3. Delete last element
-
-   ```go
-   ijson.Del(data, "#")
-   ```
-
-##### Delete from Object
-
-1. Delete `name` key
-
-   ```go
-   ijson.Del(data, "name")
-   ```
+```text
+"index"        >> { "friends": [ "Justine Bird", "Justine Rutledge", "Marianne Rutledge" ] } // DELETE "index" field
+"friends.#"    >> { "index": 0, "friends": [ "Justine Bird", "Justine Rutledge" ] }          // DELETE last element from "friends" array
+"friends.#0"   >> { "index": 0, "friends": [ "Marianne Rutledge", "Justine Rutledge" ] }     // DELETE "0th" element from "friends" array WITHOUT preserving order
+"friends.#~0"  >> { "index": 0, "friends": [ "Justine Rutledge", "Marianne Rutledge" ] }     // DELETE "0th" element from "friends" array WITH preserving order
+```
 
 ### Operations chaining
 
@@ -226,7 +185,9 @@ You can chain multiple operations and check if it succeeds or fails.
 
 ### Parsing the json
 
-This package does not provide the ability to parse json into interface data. Perhaps, we already have a very wide range of json parsers. I would recommend [GJSON](https://https://github.com/tidwall/gjson). It is probably the fastest, as far as I know. Else, you can always go with the standard library.
+This package uses standard library [encoding/json](https://golang.org/pkg/encoding/json/) as a json parser. We already have a very wide range of json parsers. I would recommend [GJSON](https://https://github.com/tidwall/gjson). It is probably the fastest, as far as I know.
+
+See `ijson.ParseBytes()` and `ijson.Parse()` functions.
 
 Please check following awesome projects, you might find a better match for you.
 
