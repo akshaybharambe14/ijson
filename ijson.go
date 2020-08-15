@@ -5,7 +5,7 @@ import "fmt"
 type (
 	Result struct {
 		val interface{}
-		err Err
+		err error
 	}
 
 	Err struct {
@@ -19,7 +19,7 @@ func New(data interface{}) (r Result) { r.val = data; return }
 func (r Result) Value() interface{} { return r.val }
 
 func (r Result) Error() error {
-	if r.err.o == nil {
+	if r.err == nil {
 		return nil
 	}
 
