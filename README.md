@@ -4,7 +4,7 @@
         width="196" height="239" border="0" alt="IJSON"
     >
     <br>
-    <a href="https://pkg.go.dev/badge/github.com/akshaybharambe14/ijson">
+    <a href="https://pkg.go.dev/github.com/akshaybharambe14/ijson">
         <img src="https://pkg.go.dev/badge/github.com/akshaybharambe14/ijson" alt="PkgGoDev">
     </a>
     <a href="https://github.com/akshaybharambe14/ijson/actions?query=workflow%3A%22Build+and+test%22">
