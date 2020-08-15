@@ -6,28 +6,51 @@ import (
 	"github.com/akshaybharambe14/ijson"
 )
 
-func main() {
-	var data = []interface{}{
-		map[string]interface{}{
-			"index": 0,
-			"friends": []interface{}{
-				map[string]interface{}{
-					"id":   0,
-					"name": "Justine Bird",
-				},
-				map[string]interface{}{
-					"id":   0,
-					"name": "Justine Bird",
-				},
-				map[string]interface{}{
-					"id":   1,
-					"name": "Marianne Rutledge",
-				},
-			},
+var dataBytes = []byte(`
+[
+	{
+	  "index": 0,
+	  "friends": [
+		{
+		  "id": 0,
+		  "name": "Justine Bird"
 		},
+		{
+		  "id": 0,
+		  "name": "Justine Bird"
+		},
+		{
+		  "id": 1,
+		  "name": "Marianne Rutledge"
+		}
+	  ]
 	}
+]
+`)
 
-	r := ijson.New(data).
+// var data = []interface{}{
+// 	map[string]interface{}{
+// 		"index": 0,
+// 		"friends": []interface{}{
+// 			map[string]interface{}{
+// 				"id":   0,
+// 				"name": "Justine Bird",
+// 			},
+// 			map[string]interface{}{
+// 				"id":   0,
+// 				"name": "Justine Bird",
+// 			},
+// 			map[string]interface{}{
+// 				"id":   1,
+// 				"name": "Marianne Rutledge",
+// 			},
+// 		},
+// 	},
+// }
+
+func main() {
+
+	r := ijson.ParseBytes(dataBytes).
 		GetP("#0.friends.#~name"). // list the friend names for 0th record -
 		// []interface {}{"Justine Bird", "Justine Bird", "Marianne Rutledge"}
 
