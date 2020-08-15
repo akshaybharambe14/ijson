@@ -106,3 +106,27 @@ func TestResult_Get(t *testing.T) {
 		})
 	}
 }
+
+func TestParse(t *testing.T) {
+	type args struct {
+		data string
+	}
+	tests := []struct {
+		name string
+		args args
+		want Result
+	}{
+		{
+			name: "valid data",
+			args: args{data: `{"id":"0"}`},
+			want: Result{val: map[string]interface{}{"id": "0"}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Parse(tt.args.data); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Parse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
